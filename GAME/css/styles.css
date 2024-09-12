@@ -1,0 +1,256 @@
+/* General Styles */
+body {
+    background-color: #121212; /* Dark background */
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden; /* Prevent scrolling */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Arial', sans-serif; /* Modern, clean font */
+    color: #e0e0e0; /* Light text color */
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(135deg, #1f1f1f, #282828, #121212);
+    z-index: -1;
+    animation: gradientMove 8s infinite alternate; /* Background animation */
+}
+
+@keyframes gradientMove {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+/* Container for Disaster Selection */
+/* Main container for disaster selection */
+.disaster-selection-container {
+    width: 90%;
+    max-width: 1200px;
+    height: 90vh; /* Full height minus some padding */
+    background-color: #111; /* Darker background to match intro style */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8); /* Heavier shadow for depth */
+    border-radius: 10px;
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff; /* Light text for contrast */
+    animation: fadeIn 1s ease-out; /* Fade-in effect for the container */
+}
+
+/* Heading styles */
+h1 {
+    font-size: 36px; /* Larger, more impactful font size */
+    color: #fff; /* Light text for headings */
+    margin-bottom: 20px; /* Spacing for visual balance */
+    text-transform: uppercase; /* Modern look */
+    letter-spacing: 2px; 
+    font-family: serif;/* Consistent with intro style */
+}
+
+/* Container for disaster cards */
+.disaster-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
+/* Individual disaster cards */
+.disaster-card {
+    cursor: pointer;
+    border: 2px solid #a2a2a2; /* Darker border for a sleeker look */
+    border-radius: 10px;
+    padding: 15px;
+    width: 30%; /* Three cards per row */
+    max-width: 300px; /* Ensure proper fit */
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    background-color: #1a1a1a; /* Darker card background */
+    color: #fff; /* Light text color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Softer shadow */
+}
+
+/* Disaster card images */
+.disaster-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    max-height: 200px; /* Ensure uniform card height */
+    object-fit: cover; /* Ensure image fits within its container */
+    transition: transform 0.3s; /* Smooth image hover effect */
+}
+
+/* Card titles */
+.disaster-card h3 {
+    font-size: 18px;
+    color: #fff; /* Light text color for card titles */
+    margin-top: 10px;
+    letter-spacing: 1px; 
+    font-family: serif;/* Slight spacing for modern look */
+}
+
+/* Hover effects for disaster cards */
+.disaster-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6); /* Bolder shadow on hover */
+    border-color: #00c9c9; /* Highlight border color */
+}
+
+/* Hover effect for images */
+.disaster-card img:hover {
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+/* Fade-in animation keyframes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.quiz-container {
+    width: 92%;
+   
+    height: 92vh;
+    background-color: #111; /* Matching the dark theme */
+    color: #fff;
+    border-radius: 10px;
+    text-align: center;
+    font-family: serif;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+}
+
+.quiz-content {
+    display: flex;
+    width: 100%;
+    height: calc(100% - 70px);
+    gap: 20px;
+}
+
+.question-column, .options-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.question-block img {
+    width: 100%; /* Make image fit the width of its container */
+    max-width: 100%; /* Ensure image does not exceed its container */
+    height: 50vh; /* Maintain aspect ratio */
+    border-radius: 8px;
+    border: 5px solid #008989;
+}
+
+.options-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+}
+
+.option {
+    flex: 0 0 calc(50% - 20px); /* Two cards per row with gap considered */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column; /* Stack image and text vertically */
+    align-items: center;
+    cursor: pointer;
+    border: 7px solid #007373; /* Neon border */
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 255, 255, 0.3); /* Neon shadow */
+    background-color: #333; /* Dark background for options */
+    text-align: center; /* Center text below the image */
+    color: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Hover effects */
+}
+
+.option:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+    border-color: #00ff00; /* Light green border on hover */
+}
+
+.option img {
+    width: 300px; /* Increased size for option images */
+    height: 160px; /* Increased size for option images */
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.option p {
+    margin: 0; /* Remove margin for text */
+    font-size: 16px; /* Adjust font size as needed */
+}
+
+/* Correct and Incorrect Option Styles */
+.option.correct {
+    border-color: #28a745;
+}
+
+.option.incorrect {
+    border-color: #dc3545;
+}
+
+.btn-primary {
+    margin-top: 20px;
+    padding: 12px 24px;
+    font-size: 18px;
+    border: 2px solid #fff;
+    background-color: transparent;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+/* Additional Background Effects */
+body::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(0, 0, 0, 0) 45%, #333 45%);
+    z-index: -1;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
