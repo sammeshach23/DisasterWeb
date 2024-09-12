@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Resource Mapping</title><br>
+    
+    <!-- Link to your external CSS file -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <style>
+        body {
+            font-family: serif;
+            background-color: black;
+            color: #ffffff;
+        }
+        .container {
+            margin-top: 60px;
+        }
+        #map {
+            height: 500px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .list-group-item {
+            font-size: 18px;
+            padding: 15px;
+        }
+        .list-group-item i {
+            margin-right: 10px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .card-header {
+            font-size: 22px;
+        }
+        .legend {
+            background: rgb(0, 0, 0);
+            padding: 10px;
+            line-height: 1.5em;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            font-size: 14px;
+            max-width: 250px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        .legend-item span {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            opacity: 0.8;
+        }
+        .navbar-brand {
+            color: #fff; /* Set the text color to white */
+        }
+        
+        .navbar-nav {
+            margin-left: auto;
+        }
+
+        .navbar>.container, .navbar>.container-fluid, .navbar>.container-lg, .navbar>.container-md, .navbar>.container-sm, .navbar>.container-xl, .navbar>.container-xxl {
+        margin: 0px;
+        margin-left: 90px;
+        }
+
+    </style>
+    
+    
+    
+    
+</head>
+<body><div>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">DISASTER NET</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="donate.html">Donate</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="dos-and-donts-earthquake.html">Dos and Don'ts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cap.html">CAP List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="crm.html">Resource Map</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="GAME/intro.html">Take Quiz</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="school-safety-programs.html">Safety Awareness</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="liveLocButton">
+                            Live Loc
+                        </a>
+                    </li>
+                </ul>
+                
+                <a href="signups.html">
+                    <button class="s-l">
+                        Signup/Login
+                    </button>
+                </a>
+                
+            </div>
+        </div>
+    </nav>
+    
+    
+    
+
+    
+      <div class="container">
+        <h1>Community Resource Mapping</h1>
+        <div id="map"></div>
+        <div class="card">
+            <div class="card-header">Nearest Resources</div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" id="hospital">
+                    <i class="fas fa-hospital"></i> Nearest Hospital: Loading...
+                </li>
+                <li class="list-group-item" id="school">
+                    <i class="fas fa-school"></i> Nearest School: Loading...
+                </li>
+                <li class="list-group-item" id="ngo">
+                    <i class="fas fa-hand-holding-heart"></i> Nearest NGO/Volunteer: Loading...
+                </li>
+                <li class="list-group-item" id="community-hall">
+                    <i class="fas fa-building"></i> Nearest Community Hall: Loading...
+                </li>
+                <li class="list-group-item" id="fire-station">
+                    <i class="fas fa-fire-extinguisher"></i> Nearest Fire Station: Loading...
+                </li>
+                <li class="list-group-item" id="police-station">
+                    <i class="fa-solid fa-building-shield"></i> Nearest Police Station: Loading...
+                </li>
+                
+                <li class="list-group-item" id="shelter">
+                    <i class="fa-solid fa-tents"></i> Nearest Shelter: Loading...
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <!-- Load the JavaScript files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const map = L.map('map').setView([40.7128, -74.0060], 12); // Default to New York City
+    
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+    
+            const markerIcons = {
+                hospital: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/128/9131/9131546.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34] }),
+                school: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/128/9131/9131546.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34] }),
+                ngo: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/128/9131/9131546.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34] }),
+                community_hall: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/128/9131/9131546.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34] }),
+                police_station: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/128/9131/9131546.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34] }),
+                fire_station: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/128/9131/9131546.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34] }),
+                shelter: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/128/9131/9131546.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34] })
+            };
+    
+            const legend = L.control({ position: 'bottomright' });
+    
+            legend.onAdd = function() {
+                const div = L.DomUtil.create('div', 'legend');
+                const types = {
+                    'Hospital': 'red',
+                    'School': 'blue',
+                    'NGO': 'green',
+                    'Community Hall': 'purple',
+                    'Police Station': 'orange',
+                    'Fire Station': 'yellow',
+                    'Shelter': 'cyan'
+                };
+                for (const [type, color] of Object.entries(types)) {
+                    div.innerHTML += `<div class="legend-item"><span style="background:${color}"></span>${type}</div>`;
+                }
+                return div;
+            };
+    
+            legend.addTo(map);
+    
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const userLocation = [position.coords.latitude, position.coords.longitude];
+                    map.setView(userLocation, 12);
+    
+                    L.marker(userLocation).addTo(map)
+                        .bindPopup('You are here!')
+                        .openPopup();
+    
+                    fetchNearbyResources(userLocation);
+                }, function() {
+                    alert("Unable to retrieve your location.");
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+    
+            function fetchNearbyResources(location) {
+                const lat = location[0];
+                const lon = location[1];
+                const range = 15000; 
+    
+                const queries = {
+                    hospital: `[out:json];node[amenity=hospital](around:${range}, ${lat}, ${lon});out;`,
+                    school: `[out:json];node[amenity=school](around:${range}, ${lat}, ${lon});out;`,
+                    ngo: `[out:json];node[amenity=place_of_worship](around:${range}, ${lat}, ${lon});out;`,
+                    community_hall: `[out:json];node[amenity=community_centre](around:${range}, ${lat}, ${lon});out;`,
+                    police_station: `[out:json];node[amenity=police](around:${range}, ${lat}, ${lon});out;`,
+                    fire_station: `[out:json];node[amenity=fire_station](around:${range}, ${lat}, ${lon});out;`,
+                    shelter: `[out:json];node[amenity=shelter](around:${range}, ${lat}, ${lon});out;`
+                };
+    
+                for (const type in queries) {
+                    fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(queries[type])}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            processResults(type, data, location);
+                        })
+                        .catch(error => console.error('Error fetching data:', error));
+                }
+            }
+    
+            function processResults(type, data, userLocation) {
+                const items = data.elements;
+                const listItem = document.getElementById(type);
+    
+                if (listItem) {
+                    if (items.length > 0) {
+                        items.forEach((item) => {
+                            const name = item.tags.name || 'Unnamed';
+                            const location = [item.lat, item.lon];
+                            const distance = calculateDistance(userLocation, location).toFixed(2);
+    
+                            L.marker(location, { icon: markerIcons[type] }).addTo(map)
+                                .bindPopup(`${type.charAt(0).toUpperCase() + type.slice(1)}: ${name} (${distance} km away)`);
+    
+                            listItem.innerHTML = `<i class="fas fa-${type === 'hospital' ? 'hospital' : type === 'school' ? 'school' : type === 'ngo' ? 'hand-holding-heart' : type === 'community-hall' ? 'building' : type === 'police-station' ? 'police-box' : type === 'fire-station' ? 'fire-extinguisher' : 'shelter'}"></i> ${type.charAt(0).toUpperCase() + type.slice(1)}: ${name} (${distance} km away)`;
+                        });
+                    } else {
+                        listItem.innerHTML = `<i class="fas fa-${type === 'hospital' ? 'hospital' : type === 'school' ? 'school' : type === 'ngo' ? 'hand-holding-heart' : type === 'community-hall' ? 'building' : type === 'police-station' ? 'police-box' : type === 'fire-station' ? 'fire-extinguisher' : 'shelter'}"></i> ${type.charAt(0).toUpperCase() + type.slice(1)}: Not Found.`;
+                    }
+                } else {
+                    console.error(`Element with ID "${type}" not found.`);
+                }
+            }
+    
+            function calculateDistance(loc1, loc2) {
+                const R = 6371; 
+                const dLat = deg2rad(loc2[0] - loc1[0]);
+                const dLon = deg2rad(loc2[1] - loc1[1]);
+                const a =
+                    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.cos(deg2rad(loc1[0])) * Math.cos(deg2rad(loc2[0])) *
+                    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                return R * c; 
+            }
+    
+            function deg2rad(deg) {
+                return deg * (Math.PI / 180);
+            }
+        });
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disaster Management India - Donate</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+    <!-- Header -->
+    <div id="navbar-container"></div>
+
+    <div class="container mt-5"><br>
+        <h1 class="text-center" style="font-family: 'serif';">Donate to Support Disaster Management Efforts</h1>
+        
+        <!-- Highlighted Total Donations Section -->
+        <div class="d-flex flex-column align-items-center">
+            <div class="total-donations-highlight text-center p-3 my-4">
+                <h3 class="text-white mb-2">Total Donations Raised</h3>
+                <span id="total-donations" class="total-donations-amount">Rs 0</span>
+            </div>
+            <!-- Motivational Quote -->
+            <p class="motivational-quote text-center mt-2">"Your generosity today can make a world of difference tomorrow."</p>
+        </div>
+                
+        <div class="donation-container">
+            <form class="donation-form" onsubmit="return handleDonation(event)">
+                <h2 class="text-center">Enter Your Donation Details</h2>
+                <div class="form-group">
+                    <label for="full-name">Full Name:</label>
+                    <input type="text" id="full-name" name="full-name" placeholder="Enter Full Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" placeholder="Enter Email" required>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Donation Amount:</label>
+                    <input type="number" id="amount" name="amount" placeholder="Enter the amount" required>
+                </div>
+                
+                <h4 class="text-center mt-3">Choose a Payment Method</h4>
+                <div class="payment-buttons">
+                    <button type="button" class="btn donation-btn" onclick="showQRCode()">GPay</button>
+                    <button type="button" class="btn donation-btn" onclick="showUPIForm()">UPI</button>
+                    <button type="button" class="btn donation-btn" onclick="showBankForm()">Bank Transfer</button>
+
+                </div>
+                <div id="payment-details" class="mt-4"></div>
+                <button type="submit" class="submit-button mt-3">Submit Donation</button>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- QR Code Modal -->
+    <div class="modal fade" id="qrCodeModal" tabindex="-1" aria-labelledby="qrCodeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="qrCodeModalLabel">Scan to Pay with GPay</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center">
+            <img src="img/qr.jpg" alt="GPay QR Code" style="width: 200px;">
+            <p>Scan this QR code with your GPay app to complete the donation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+
+    <style>
+        body {
+            background-image: url('img/donation-bg.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        
+        .total-donations-highlight {
+            background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background for glass effect */
+            border: 3px solid rgba(255, 255, 255, 0.5); /* Semi-transparent white border */
+            border-radius: 10px;
+            font-size: 1.5rem;
+            color: #ffffff; /* White text color */
+            backdrop-filter: blur(10px); /* Glass effect */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow for 3D effect */
+            animation: pulse 2s infinite, shimmer 1.5s infinite; /* Multiple animations */
+            padding: 20px; /* Padding inside the container */
+            margin-top: 20px;
+        }
+        
+        .total-donations-amount {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 4px #000;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -100% 0; }
+            100% { background-position: 100% 0; }
+        }
+        
+        .total-donations-highlight {
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.2));
+            background-size: 200% 200%;
+        }
+        
+        
+
+        .motivational-quote {
+            font-size: 1.2rem;
+            color: #ffffff;
+            font-style: italic;
+            text-shadow: 1px 1px 2px #000;
+            margin-top: 10px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        #payment-details {
+            display: none;
+        }
+        .donation-btn {
+            background-color: #007bff; /* Change this to your desired color */
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        
+        .donation-btn:hover {
+            background-color: #62acfb; /* Darker shade for hover effect */
+            transform: scale(1.05); /* Slight zoom effect */
+        }
+        
+        .donation-btn:focus {
+            outline: none;
+        }
+        .submit-button {
+            background-color: #28a745; /* Green color */
+            color: #ffffff; /* White text */
+            border: none;
+            border-radius: 12px; /* Smooth edges */
+            padding: 12px 24px; /* Adjust padding */
+            font-size: 18px; /* Adjust text size */
+            cursor: pointer;
+            transition: all 0.3s ease; /* Smooth transitions */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 3D effect */
+        }
+        
+        .submit-button:hover {
+            background-color: #218838; /* Darker green on hover */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3); /* Enhanced 3D effect */
+            transform: translateY(-2px); /* Lift effect */
+        }
+        
+        .submit-button:focus {
+            outline: none; /* Remove default focus outline */
+        }
+        
+        
+    </style>
+
+    <script src="js/fill-amount.js"></script>
+    <script src="js/navbar-loader.js"></script>
+    <script src="js/footer-loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+    <script>
+        function fillAmount(amount) {
+            document.getElementById('amount').value = amount;
+        }
+
+        function showQRCode() {
+            var qrCodeModal = new bootstrap.Modal(document.getElementById('qrCodeModal'));
+            qrCodeModal.show();
+        }
+
+        function showUPIForm() {
+            document.getElementById('payment-details').style.display = 'block';
+            document.getElementById('payment-details').innerHTML = `
+                <h5>UPI Payment Details</h5>
+                <p>Please enter your UPI ID to proceed.</p>
+                <input type="text" id="upi-id" class="form-control" placeholder="Enter UPI ID">
+            `;
+        }
+
+        function showBankForm() {
+            document.getElementById('payment-details').style.display = 'block';
+            document.getElementById('payment-details').innerHTML = `
+                <h5>Bank Transfer Details</h5>
+                <p>Account Name: Disaster Relief Fund</p>
+                <p>Account Number: 1234567890</p>
+                <p>IFSC Code: ABCD0123456</p>
+                <p>Please provide your transaction reference number after making the payment.</p>
+                <input type="text" id="transaction-id" class="form-control" placeholder="Enter Transaction Reference Number">
+            `;
+        }
+
+        function handleDonation(event) {
+            event.preventDefault();
+            const amount = document.getElementById('amount').value;
+            const fullName = document.getElementById('full-name').value;
+            const email = document.getElementById('email').value;
+            alert("Donation of Rs " + amount + " submitted successfully by " + fullName + ".");
+            updateTotalDonations(amount);
+        }
+
+        function updateTotalDonations(amount) {
+            const currentTotal = parseInt(document.getElementById('total-donations').innerText.replace('Rs ', '')) || 0;
+            const newTotal = currentTotal + parseInt(amount);
+            document.getElementById('total-donations').innerText = 'Rs ' + newTotal;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Live Location</title>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('img/donation-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+            backdrop-filter: blur(3px);
+        }
+
+        h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: rgb(255, 255, 255);
+        }
+
+        #loader {
+            border: 8px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 8px solid #ffffff;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite, colorChange 2s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes colorChange {
+            0% { border-top-color: #ffffff; }
+            50% { border-top-color: #ff5722; }
+            100% { border-top-color: #4caf50; }
+        }
+
+        #message {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div id="loader"></div>
+        <h2>Sending Live Location...</h2>
+        <p id="message">Please wait while we fetch and send your location.</p>
+    </div>
+
+    <script>
+        function sendLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    let latitude = position.coords.latitude;
+                    let longitude = position.coords.longitude;
+
+                    let emailBody = `Current Location:\nLatitude: ${latitude}\nLongitude: ${longitude}\nGoogle Maps Link: https://www.google.com/maps?q=${latitude},${longitude}`;
+
+                    Email.send({
+                        Host: "smtp.elasticemail.com",
+                        Username: "sammeshach.a2022ai-ds@sece.ac.in",
+                        Password: "A972AFC0037364DB9E813B6E91AC21F03D23",
+                        To: 'sammeshach.a2022ai-ds@sece.ac.in',
+                        From: "sammeshach.a2022ai-ds@sece.ac.in",
+                        Subject: "Live Location",
+                        Body: emailBody
+                    }).then(
+                        message => document.getElementById("message").textContent = "Email sent successfully!"
+                    ).catch(
+                        error => document.getElementById("message").textContent = "Failed to send email: " + error
+                    );
+                }, function(error) {
+                    document.getElementById("message").textContent = "Error with geolocation: " + error.message;
+                });
+            } else {
+                document.getElementById("message").textContent = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        window.onload = sendLocation;
+    </script>
+</body>
+</html>
