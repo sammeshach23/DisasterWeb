@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!--title-->
+	<title>Start Game</title>
+	<!--metadata-->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<!--icon-->
+	<link rel="icon" href="../img/icon.png" type="image/png">
+	<!--external css-->
+	<link rel="stylesheet" type="text/css" href="../css/custom.css">
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../bootstrap4-glyphicons/css/bootstrap-glyphicons.min.css">
+	<!--internal css-->
+	<style language="css">
+	body{
+		color: white;
+		background-image: url('../img/game.jpg');
+		background-size: cover;
+		background-repeat: no-repeat;
+	}
+	</style>
+</head>
+<body>
+<!--instructions modal-->
+<div class="modal fade" id="directions">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Game Instructions</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body text-justify">
+        Oops! Sadly, there's no turning back! You are expected to finish this quiz as soon as you click "begin". <br /><br />
+        This quiz tests your skills on HTML, CSS, JavaScript, Bootstrap, and Materialize. There are twenty questions on each topic, randomly shown, having a hundred in total. Given are four options per question, with only one correct answer. Choose the correct answer (if you are certain of it!). Your progress in this quiz is shown on the top. Good luck, user!<br /><br />
+        <em>Website made by cs-knode_EGPC. Credits to GitHub and FreeLearning for several resources in this website.</em>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--preloader-->
+ <div class="preloader_bg">
+ 	<div class="preloader">
+ 	</div>
+ </div>
+
+<!--everything starts here-->
+<div class="container">
+	<div class="card card-block game">
+		<div class="progress m-3">
+            <div class="progress-bar bg-dark" id="p-num"></div>
+        </div>
+	    <div class="card-body">
+	        <h1 class="card-title h1 m-0" id="q-num">Question:</h1>
+	        <p class="card-text ask mt-0 mb-3" id="question">This is a question</p>
+	        
+	        <!-- Image for the question -->
+	        <img id="question-image" src="" alt="Question Image" style="display:none; max-width: 100%; height: auto;" />
+	        
+	        <div class="choice-container m-0 mt-2">
+	        	<p class="choice-button btn-lg btn-block h6 choices choice-text m-0" data-number="1">Choice</p>
+	        </div>
+	        <div class="choice-container m-0 mt-2">
+	        	<p class="choice-button btn-lg btn-block h6 choices choice-text m-0" data-number="2">Choice</p>
+	        </div>
+	        <div class="choice-container m-0 mt-2">
+	        	<p class="choice-button btn-lg btn-block h6 choices choice-text m-0" data-number="3">Choice</p>
+	    	</div>
+	        <div class="choice-container m-0 mt-2">
+	        	<p class="choice-button btn-lg btn-block h6 choices choice-text m-0" data-number="4">Choice</p>
+	    	</div>
+	    </div>
+	    <a class="btn btn-sm" data-toggle="modal" data-target="#directions">
+	    	<i class="glyphicon glyphicon-question-sign help m-3" data-toggle="tooltip" data-placement="bottom" title="Help?"></i>
+	    </a>
+	</div>
+</div>
+<!--everything ends here-->
+
+<!--external js-->
+<script type="text/javascript" src="../js/jquery.min.js" charset="utf-8" async defer></script>
+<script type="text/javascript" src="../js/tether.min.js" charset="utf-8" async defer></script>
+<script type="text/javascript" src="../js/popper.min.js" charset="utf-8" async defer></script>
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../js/custom.js"></script>
+<!--internal js-->
+<script language="javascript">
+	/* preloader */
+	setTimeout(function(){
+		$('.preloader_bg').fadeToggle('slow');
+	}, 1500);
+	/* tooltip */
+	$(function() {
+	  $('[data-toggle="tooltip"]').tooltip()
+	});
+	/* modal */
+	$('#myModal').on('shown.bs.modal', function () {
+	  $('#myInput').trigger('focus')
+	});
+</script>
+
+</body>
+</html>
