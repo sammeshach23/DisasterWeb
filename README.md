@@ -48,13 +48,14 @@ Recent disasters revealed how fragmented communication and delayed responses wor
 
 ```mermaid
 flowchart TD
-    A[User Report] --> B[Backend (Node.js + Express)]
+    A[User Report] --> B[Backend: Node.js & Express]
     B --> C[MongoDB Database]
     B --> D[AI Prediction Model]
     D --> E[Response Recommendation]
     C --> F[Resource Mapping Dashboard]
     E --> F
-    F --> G[Authorities / Volunteers]
+    F --> G[Authorities & Volunteers]
+
 ```
 
 ---
@@ -124,7 +125,7 @@ where
    ```bash
    npm start
    ```
-   The app will be live at: **http://localhost:5000**
+   The app will be live at: **https://disasternetweb.netlify.app/**
 
 ---
 
